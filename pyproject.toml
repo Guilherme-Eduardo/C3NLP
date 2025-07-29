@@ -1,5 +1,5 @@
 [project]
-name = "cogvault"
+name = "C3NLP"
 version = "0.1.0"
 description = "Talk with your private files using a local LLM"
 readme = "README.md"

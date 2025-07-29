@@ -4,7 +4,7 @@ from pathlib import Path
 from pypdfium2 import PdfDocument
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
-from cogvault.config import Config
+from config import Config
 
 TEXT_FILE_EXTENSION = ".txt"
 MD_FILE_EXTENSION = ".md"

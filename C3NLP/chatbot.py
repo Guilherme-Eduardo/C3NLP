@@ -1,6 +1,9 @@
 from dataclasses import dataclass
+from langchain_core.messages import AIMessage, HumanMessage
+from langchain.prompts.chat import ChatPromptTemplate, MessagesPlaceholder
 from typing import List, TypedDict
 from langchain_core.messages import BaseMessage
+from typing import Iterable
 from langchain_core.documents import Document
 from enum import Enum
 from dataclasses import dataclass
@@ -8,10 +11,12 @@ from typing import List
 from langchain_core.documents import Document
 from langgraph.graph import START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
+from langchain_ollama import ChatOllama
 
-from cogvault.config import Config
-from cogvault.data_ingestor import ingest_files
-from cogvault.file_loader import File
+
+from config import Config
+from data_ingestor import ingest_files
+from file_loader import File
 
 SYSTEM_PROMPT = """
 You're having a conversation with a user about excerpts of their files.
@@ -110,6 +115,17 @@ class Chatbot:
     def _retrieve(self, state: State):
         context = self.retriever.invoke(state["question"])
         return {"context": context}
+    
+    def _generate(self, state: State) -> dict:
+        messages = PROMPT_TEMPLATE.invoke({
+            "question": state["question"],
+            "context": self._format_docs(state["context"]),
+            "chat_history": state["chat_history"],
+        })
+
+        answer = self.llm.invoke(messages)
+
+        return {"answer": answer}
     
     def _create_workflow(self) -> CompiledStateGraph:
         graph_builder = StateGraph(State).add_sequence([

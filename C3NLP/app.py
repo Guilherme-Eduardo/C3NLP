@@ -4,7 +4,7 @@ from typing import List
 import streamlit as st
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
-from cogvault.chatbot import (
+from chatbot import (
     Chatbot,
     ChunkEvent,
     Message,
@@ -12,7 +12,7 @@ from cogvault.chatbot import (
     SourcesEvent,
     create_history,
 )
-from cogvault.file_loader import load_uploaded_file
+from file_loader import load_uploaded_file
 
 # Frases engraçadas para exibição enquanto o sistema está processando
 LOADING_MESSAGES = [
@@ -45,14 +45,14 @@ WELCOME_MESSAGE = Message(
 
 # Configuração da página do Streamlit
 st.set_page_config(
-    page_title="CogVault RAG",
+    page_title="C3NLP RAG",
     page_icon="✨",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
 # Cabeçalhos principais da aplicação
-st.header("CogVault RAG")
+st.header("C3NLP RAG")
 st.subheader("Private intelligence for your thoughts and files")
 
 # Função de criação do chatbot com cache

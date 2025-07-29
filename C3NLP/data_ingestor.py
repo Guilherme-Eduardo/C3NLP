@@ -11,8 +11,8 @@ from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_ollama import ChatOllama
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from cogvault.config import Config
-from cogvault.file_loader import File
+from config import Config
+from file_loader import File
 
 
 CONTEXT_PROMPT = ChatPromptTemplate.from_template(
