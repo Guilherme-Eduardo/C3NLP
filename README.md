@@ -65,10 +65,10 @@ Atualmente, o projeto suporta e utiliza os seguintes modelos:
 
 ```mermaid
 flowchart TD
-    A([Upload de Arquivo]) --> B[load_uploaded_file]
-    B --> C([Arquivo carregado])
-    C --> D([Usuário faz pergunta])
-    D --> E[ask(prompt, chat_history)]
+    A[Upload de Arquivo] --> B[load_uploaded_file]
+    B --> C[Arquivo carregado]
+    C --> D[Usuário faz pergunta]
+    D --> E[ask]
     E --> F[_ask_model]
     F --> G{workflow.stream}
 
@@ -76,7 +76,8 @@ flowchart TD
     G -->|ChunkEvent| I[Streaming de resposta]
     G -->|FinalAnswerEvent| J[Resposta final]
 
-    J --> K([Atualiza histórico e retorna])
+    J --> K[Atualiza histórico e retorna]
+
 
 
 ---
