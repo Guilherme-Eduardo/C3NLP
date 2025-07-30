@@ -96,28 +96,30 @@ def _create_chunks(document: Document) -> List[Document]:
 
     return contextual_chunks
 
-
+# Cria um retriever hibrido, que combina busca semântica com embeddings e busca lexical BM25
 def ingest_files(files: List[File]) -> BaseRetriever:
     documents = [
         Document(file.content, metadata={"source": file.name})
         for file in files
     ]
 
+    #Cria os chunks (Divisão dos arquivos)
     chunks = []
     for document in documents:
         chunks.extend(_create_chunks(document))
 
     # Semantic retriever com embeddings
+    # Armazena vetores númericos
     semantic_retriever = InMemoryVectorStore.from_documents(
         chunks,
         create_embeddings()
-    ).as_retriever(search_kwargs={"k": Config.Preprocessing.N_SEMANTIC_RESULTS})
+    ).as_retriever(search_kwargs={"k": Config.Preprocessing.N_SEMANTIC_RESULTS}) #Retorna os K chunks mais relevantes
 
-    # BM25 lexical retriever
+    # Criando o BM25 Retriever (Algoritmo tradicional de busca por palavras-chave (TF-IDF evoluído))
     bm25_retriever = BM25Retriever.from_documents(chunks)
     bm25_retriever.k = Config.Preprocessing.N_BM25_RESULTS
 
-    # Combinador de ambos
+    # Combinando Semantic + BM25 (Ensemble)
     ensemble_retriever = EnsembleRetriever(
         retrievers=[semantic_retriever, bm25_retriever],
         weights=[0.6, 0.4]

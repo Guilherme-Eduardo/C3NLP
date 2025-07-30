@@ -22,23 +22,27 @@ def extract_pdf_content(data: bytes) -> str:
     content = ""
     for page in pdf:
         text_page = page.get_textpage()
+        #Extrai o texto da página
         content += f"{text_page.get_text_bounded()}\n"
     return content
 
 def load_uploaded_file(uploaded_file: UploadedFile) -> File:
     file_extension = Path(uploaded_file.name).suffix
 
+    #Verifica a extensão do arquivo pelo suffix
     if file_extension not in Config.ALLOWED_FILE_EXTENSIONS:
         raise ValueError(
             f"Invalid file extension: {file_extension} for file {uploaded_file.name}"
         )
 
+    #Se for pdf, usa a função para ler o pdf
     if file_extension == PDF_EXTENSION:
         return File(
             name=uploaded_file.name,
             content=extract_pdf_content(uploaded_file.getvalue())
         )
 
+    #Caso seja texto
     return File(
         name=uploaded_file.name,
         content=uploaded_file.getvalue().decode("utf-8")

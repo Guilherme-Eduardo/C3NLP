@@ -40,7 +40,7 @@ LOADING_MESSAGES = [
 
 WELCOME_MESSAGE = Message(
     role=Role.ASSISTANT,
-    content="Hello👋 How can I help you today?"
+    content="Olá,👋 Como eu posso ajudá-lo hoje?"
 )
 
 # Configuração da página do Streamlit
@@ -53,10 +53,10 @@ st.set_page_config(
 
 # Cabeçalhos principais da aplicação
 st.header("C3NLP RAG")
-st.subheader("Private intelligence for your thoughts and files")
+st.subheader("Bem vindo,\nInsira arquivo(s) para iniciarmos um papinho.")
 
 # Função de criação do chatbot com cache
-@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner=False)                      # para não recriar o chatbot toda vez que a página atualiza (Cache).
 def create_chatbot(files: List[UploadedFile]) -> Chatbot:
     processed_files = [load_uploaded_file(file) for file in files]
     return Chatbot(processed_files)
@@ -72,23 +72,28 @@ def show_upload_documents() -> List[UploadedFile]:
         )
 
     if not uploaded_files:
-        st.warning("Please upload PDF documents to continue!")
+        st.warning("Por favor carrega um arquivo PDF para continuar!")
         st.stop()
 
-    with st.spinner("Analyzing your document(s)..."):
+    with st.spinner("Analisando documento(s)..."):
         holder.empty()
         return uploaded_files
 
 
-# Fluxo principal
+########################## Fluxo principal ################################################
+
+# Leitura de arquivos e inicialização do chatbot
 uploaded_files = show_upload_documents()
 chatbot = create_chatbot(uploaded_files)
 
+# Verifica se uma sessão já foi criada, caso contrário, ele ignora (Por causa da cache)
 if "messages" not in st.session_state:
     st.session_state.messages = create_history(WELCOME_MESSAGE)
 
+#Configurando sidebar (barra lateral)
 with st.sidebar:
-    st.title("Your files")
+    st.title("Seus arquivos")
+    #Nomes dos arquivos upados.
     file_list_text = "\n".join([f"- {file.name}" for file in chatbot.files])
     st.markdown(file_list_text)
 
@@ -99,7 +104,7 @@ for message in st.session_state.messages:
         st.markdown(message.content)
 
 # Entrada do usuário
-if prompt := st.chat_input("Type your message..."):
+if prompt := st.chat_input("Digite sua mensagem..."):
     with st.chat_message("user", avatar="🧑"):
         st.markdown(prompt)
 
