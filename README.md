@@ -1,4 +1,4 @@
-🧠 C3NLP
+# 🧠 C3NLP
 
 **C3NLP** é um sistema de **Geração de Respostas Contextuais** utilizando **RAG (Retrieval-Augmented Generation)**, construído com:
 
@@ -61,23 +61,23 @@ Atualmente, o projeto suporta e utiliza os seguintes modelos:
 
 ---
 
-## 🚀 Fluxo de Execução
+## 🚀 Fluxo de Execução do Chatbot
 
 ```mermaid
 flowchart TD
-    A[Upload de Arquivo] --> B[load_uploaded_file]
-    B --> C[File(name, content)]
-    C --> D[Usuário faz pergunta]
+    A([Upload de Arquivo]) --> B[load_uploaded_file]
+    B --> C([Arquivo carregado])
+    C --> D([Usuário faz pergunta])
     D --> E[ask(prompt, chat_history)]
     E --> F[_ask_model]
-    F --> G[workflow.stream]
-    
+    F --> G{workflow.stream}
+
     G -->|SourcesEvent| H[Documentos recuperados]
     G -->|ChunkEvent| I[Streaming de resposta]
     G -->|FinalAnswerEvent| J[Resposta final]
-    
-    J --> K[Atualiza histórico e retorna]
-```
+
+    J --> K([Atualiza histórico e retorna])
+
 
 ---
 
