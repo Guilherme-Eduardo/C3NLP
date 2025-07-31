@@ -16,8 +16,8 @@ class Config:
     class Preprocessing:
         CHUNK_SIZE = 2048                               # Tamanho das partes de cada chunk
         CHUNK_OVERLAP = 128                             # Sobreposição de cada chunk
-        EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"      # Modelo de embedding
-        RERANKER = "ms-marco-MiniLM-L-12-v2"            # Modelo para reordenar os resultados de busca
+        EMBEDDING_MODEL = "intfloat/multilingual-e5-large"      # Modelo de embedding
+        RERANKER = "cross-encoder/ms-marco-MiniLM-Large-v2"            # Modelo para reordenar os resultados de busca
         LLM = "llama3"                                  # Modelo de LLM usado para dar as respostas finais
         CONTEXTUALIZE_CHUNKS = True                     # Se os chunks devem ser contextualizados antes da análise.
         N_SEMANTIC_RESULTS = 5                          # quantidade de resultados de busca semântica retornados.

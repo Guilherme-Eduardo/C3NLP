@@ -10,6 +10,8 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_ollama import ChatOllama
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
 
 from config import Config
 from file_loader import File
@@ -56,7 +58,7 @@ def create_llm() -> ChatOllama:
 
 
 def create_embeddings() -> FastEmbedEmbeddings:
-    return FastEmbedEmbeddings(
+    return HuggingFaceEmbeddings(
         model_name=Config.Preprocessing.EMBEDDING_MODEL
     )
 
