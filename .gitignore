@@ -206,3 +206,8 @@ __marimo__/
 
 # Arquivos temporários
 .DS_Store
+
+bin/
+out
+output
+script.sh
